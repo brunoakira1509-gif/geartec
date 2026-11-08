@@ -679,7 +679,7 @@ const tcss=c=>'#'+c.toString(16).padStart(6,'0'),r2=x=>Math.round(x*100)/100,mpS
 const mpName=()=>{const n=$('mpn').value.trim().slice(0,14)||'Jogador';try{localStorage.setItem('arenax1.name',n)}catch(e){}return n};
 const mpStat=t=>{$('mpst').textContent=t;$('rmst').textContent=t};
 function mpConnect(){if(MP.ws&&MP.ws.readyState<=1)return;mpStat('Conectando… (no plano grátis do Render o servidor pode levar ~1 min para acordar)');
- const defaultServer=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'ws://localhost:3000/ws':'wss://arena-x1.onrender.com/ws';
+ const defaultServer=(location.hostname==='localhost'||location.hostname==='127.0.0.1')?'ws://localhost:3000/ws':'wss://geartec.onrender.com/ws';
 const u=new URLSearchParams(location.search).get('server')||defaultServer;let ws;
  try{ws=new WebSocket(u)}catch(e){mpStat('URL do servidor inválida');return}
  MP.ws=ws;ws.onopen=()=>{mpStat('Conectado');mpSend({t:'list'})};
