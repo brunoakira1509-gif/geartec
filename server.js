@@ -1,11 +1,12 @@
 // Arena X1 · servidor multiplayer (Node + ws). Serve o jogo e roda os lobbies via WebSocket em /ws
 const http=require('http'),fs=require('fs'),path=require('path'),{WebSocketServer}=require('ws');
-const PORT=process.env.PORT||3000,HTML=path.join(__dirname,'public','index.html');
+const PORT=process.env.PORT||3000;
+const HTML=fs.existsSync(path.join(__dirname,'public','index.html'))?path.join(__dirname,'public','index.html'):path.join(__dirname,'index.html');
 const KILLS=[5,10,15,20,30,50],MAXP=[2,3,4,6,8],TEAMS=[0,2,3,4]; // índices usados em cfg: k, m, t (map reservado p/ futuros mapas)
 const rooms=new Map();let nid=1;
 const srv=http.createServer((q,s)=>{
   if(q.url==='/health'){s.writeHead(200);return s.end('ok')}
-  fs.readFile(HTML,(e,d)=>{if(e){s.writeHead(500);return s.end('public/index.html não encontrado')}
+  fs.readFile(HTML,(e,d)=>{if(e){s.writeHead(500);return s.end('index.html não encontrado')}
     s.writeHead(200,{'Content-Type':'text/html; charset=utf-8','Cache-Control':'no-cache'});s.end(d)})});
 const wss=new WebSocketServer({server:srv,path:'/ws',maxPayload:16384});
 const send=(p,o)=>{if(p.ws.readyState===1)p.ws.send(JSON.stringify(o))};
